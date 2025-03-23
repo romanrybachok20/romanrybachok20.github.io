@@ -92,9 +92,16 @@ nav .nav-menu li a:hover {
 }
 
 .map-cell {
-    background-color: lightgreen;
+    background-color: #4CAF50;
     border: 1px solid #ccc;
     transition: background-color 0.3s ease;
+    width: 80px;
+    height: 80px;  
+}
+
+.map-container .map-cell img {
+    width: 80px;
+    height: 80px;  
 }
 
 .map-cell:hover {
@@ -333,6 +340,11 @@ footer p {
     .map-cell {
         width: 50px;
         height: 50px;
+    }
+    
+    .map-container .map-cell img {
+        width: 50px;
+        height: 50px;  
     }
 
     /* Форма будівництва */
