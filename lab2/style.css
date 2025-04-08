@@ -1,4 +1,3 @@
-/* Загальні стилі */
 body {
     margin: 0;
     padding: 0;
@@ -25,7 +24,6 @@ h1 {
     color: #f06400; 
 }
 
-/* Навігація */
 nav {
     display: flex;
     justify-content: space-between;
@@ -37,13 +35,15 @@ nav {
     box-shadow: 0 4px 10px #f06400;
 }
 
-nav .title h1 {
+.title h1 {
     font-size: 50px; 
     color: #f06400;
     margin: 0;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase; /* ВСІ БУКВИ ВЕЛИКІ */
+    -webkit-user-select: none;
+    cursor: default; 
 }
 
 nav .nav-menu {
@@ -73,7 +73,6 @@ nav .nav-menu li a:hover {
     color: #ffffff;
 }
 
-/* Карта */
 .wrapper {
     width: 84%;
     height: 650px;
@@ -97,7 +96,7 @@ nav .nav-menu li a:hover {
     transition: background-color 0.3s ease;
     width: 80px;
     height: 80px;  
-    position: relative; /* Додаємо, щоб кнопка могла позиціонуватися всередині */
+    position: relative; 
 }
 
 .map-container .map-cell img {
@@ -107,6 +106,30 @@ nav .nav-menu li a:hover {
 
 .map-cell:hover {
     background-color: #00bfff;
+}
+
+.cell-btn {
+    background-color: #000000; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 8px; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    transition: background-color 0.1s;
+    display: none;
+}
+
+.cell-btn:hover {
+    background-color: #45a049; 
+}
+
+.map-cell:hover .cell-btn {
+    display: block;
 }
 
 #construction {
@@ -126,7 +149,6 @@ form {
     align-items: center;
 }
 
-/* Групування елементів форми */
 .form-group {
     width: 100%;
     display: flex;
@@ -136,7 +158,6 @@ form {
     margin-bottom: 20px;
 }
 
-/* Стилі для підписів */
 form label {
     font-weight: 600;
     color: #000000;
@@ -145,7 +166,6 @@ form label {
     padding-top: 20px;
 }
 
-/* Контейнер зображень */
 .image-options {
     display: flex;
     flex-wrap: wrap;
@@ -156,12 +176,10 @@ form label {
     align-items: center;
 }
 
-/* Сховати стандартні radio-кнопки */
 .image-options input {
     display: none;
 }
 
-/* Стилі для зображень */
 .image-options img {
     width: 100px;
     height: 100px;
@@ -171,14 +189,12 @@ form label {
     transition: 0.3s;
 }
 
-/* Виділення вибраного зображення */
 .image-options input:checked + img {
     border-color: #f06400;
     box-shadow: 0 0 10px #f06400;
     transform: scale(1.07);
 }
 
-/* Вирівнювання input та select */
 form select, form input {
     width: 40%;
     padding: 10px;
@@ -193,7 +209,6 @@ form select {
     cursor: pointer;
 }
 
-/* Кнопка */
 form button {
     background-color: #4CAF50;
     width: 40%;
@@ -229,7 +244,6 @@ form button:active {
     text-align: center;
 }
 
-/* Поле для ресурсів */
 #needresources {
     font-size: 14px;
     font-weight: 700;
@@ -246,22 +260,19 @@ form button:active {
     margin: 30px auto 0px auto; 
 }
 
-/* Контейнер для таблиць: робить їх у рядок */
 .tables-container {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
     gap: 20px;
-    flex-wrap: wrap; /* Щоб таблиці не ламались на маленьких екранах */
+    flex-wrap: wrap; 
 }
 
-/* Стилізація таблиць */
 table {
     border-collapse: collapse;
     text-align: center;
 }
 
-/* Основні стилі для матеріалів */
 .materials-table {
     width: 40%;
 }
@@ -270,7 +281,6 @@ table {
     width: 25%;
 }
 
-/* Заголовки таблиць */
 thead {
     background-color: #333;
     color: white;
@@ -281,32 +291,12 @@ th, td {
     padding: 10px;
 }
 
-/* Фон чергується в таблиці матеріалів */
 .resources tbody {
     background-color: #ffffff;
 }
 
 .resources tbody tr:hover {
     background-color: #eaeaea;
-}
-
-.add-btn {
-    background-color: #000000; /* Чорний фон */
-    color: white; /* Білий текст */
-    border: none; /* Без рамки */
-    padding: 5px 10px;
-    font-size: 10px;
-    cursor: pointer;
-    border-radius: 8px; /* Закруглені краї */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Центруємо */
-    transition: background-color 0.1s;
-}
-
-.add-btn:hover {
-    background-color: #45a049; /* Трохи темніший зелений при наведенні */
 }
 
 
@@ -327,7 +317,6 @@ footer p {
 }
 
 @media (max-width: 768px) {
-    /* Загальні стилі */
     body {
         font-size: 16px;
     }
@@ -338,7 +327,6 @@ footer p {
         max-width: 60%;
     }
 
-    /* Навігація */
     nav {
         flex-direction: column;
         align-items: center;
@@ -365,7 +353,6 @@ footer p {
         padding: 10px 10px;
     }
 
-    /* Карта */
     .wrapper {
         width: 80%;
         height: 500px;
@@ -386,7 +373,6 @@ footer p {
         height: 50px;  
     }
 
-    /* Форма будівництва */
     form {
         width: 80%;
         padding: 20px;
@@ -411,13 +397,11 @@ footer p {
         width: 80%;
     }
 
-    /* Контейнер зображень */
     .image-options img {
         width: 80px;
         height: 80px;
     }
 
-    /* Розділ Ресурсів */
     .tables-container {
         flex-direction: column;
         align-items: center;
@@ -428,7 +412,6 @@ footer p {
         width: 90%;
     }
 
-    /* Футер */
     footer {
         font-size: 14px;
         padding: 20px;
@@ -437,20 +420,20 @@ footer p {
 
 @media (min-width: 768px) and (max-width: 882px) {
     nav {
-        padding: 15px 50px; /* Менше відступів */
+        padding: 15px 50px; 
     }
 
     nav .nav-menu {
-        justify-content: center; /* Центруємо елементи */
-        gap: 10px; /* Зменшуємо відстань між пунктами */
+        justify-content: center; 
+        gap: 10px; 
     }
 
     nav .nav-menu li {
-        margin-left: 10px; /* Менші відступи */
+        margin-left: 10px;
     }
 
     nav .nav-menu li a {
-        font-size: 27px; /* Менший розмір шрифту */
-        padding: 6px 10px; /* Оптимізуємо відступи */
+        font-size: 27px; 
+        padding: 6px 10px; 
     }
 }
