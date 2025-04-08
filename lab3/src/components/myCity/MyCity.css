@@ -1,0 +1,51 @@
+/* Карта */
+.wrapper {
+    width: 84%;
+    height: 650px;
+    margin: 0 auto;
+    overflow: auto;
+    border: 5px solid #000000;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+}
+
+.map-container {
+    display: grid;
+    grid-template-columns: repeat(100, 80px);
+    grid-template-rows: repeat(100, 80px);
+    grid-gap: 1px;
+}
+
+.map-cell {
+    background-color: #4CAF50;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+    width: 80px;
+    height: 80px;  
+    position: relative; /* Додаємо, щоб кнопка могла позиціонуватися всередині */
+}
+
+.map-container .map-cell img {
+    width: 80px;
+    height: 80px;  
+}
+
+.map-cell:hover {
+    background-color: #00bfff;
+}
+
+h1 {
+    font-size: 36px; 
+}
+
+.zagolovki {
+    text-align: center;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #f06400;
+    padding: 15px;
+    max-width: 500px; 
+    width: 100%; 
+    margin: 80px auto 20px auto;
+    color: #f06400; 
+}

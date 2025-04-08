@@ -1,0 +1,71 @@
+#resources {
+    background-color: #ffffff;
+    padding: 25px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1280px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #f06400;
+    text-align: center;
+}
+
+/* Поле для ресурсів */
+#needresources {
+    font-size: 14px;
+    font-weight: 700;
+    display: block;
+    resize: none; 
+    overflow: hidden; 
+    width: 15%;
+    height: 90px;
+    text-align: center; 
+    padding: 10px; 
+    border: 1px solid #000000; 
+    border-radius: 8px; 
+    background-color: #f1f0f0; 
+    margin: 30px auto 0px auto; 
+}
+
+/* Контейнер для таблиць: робить їх у рядок */
+.tables-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap; /* Щоб таблиці не ламались на маленьких екранах */
+}
+
+/* Стилізація таблиць */
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* Основні стилі для матеріалів */
+.materials-table {
+    width: 40%;
+}
+
+.info-table {
+    width: 25%;
+}
+
+/* Заголовки таблиць */
+thead {
+    background-color: #333;
+    color: white;
+}
+
+th, td {
+    border: 1px solid #000000;
+    padding: 10px;
+}
+
+/* Фон чергується в таблиці матеріалів */
+.resources tbody {
+    background-color: #ffffff;
+}
+
+.resources tbody tr:hover {
+    background-color: #eaeaea;
+}

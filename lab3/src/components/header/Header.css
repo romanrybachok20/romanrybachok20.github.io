@@ -1,0 +1,47 @@
+/* Навігація */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    color: white;
+    padding: 20px 100px;
+    border-bottom: 2px solid #ffffff;
+    box-shadow: 0 4px 10px #f06400;
+}
+
+nav .title h1 {
+    font-size: 50px; 
+    color: #f06400;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase; /* ВСІ БУКВИ ВЕЛИКІ */
+}
+
+nav .nav-menu {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav .nav-menu li {
+    margin-left: 20px;
+}
+
+nav .nav-menu li a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 27px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: background-color 0.1s ease;
+    letter-spacing: 0.5px;
+    background-color: #ffffff;
+}
+
+nav .nav-menu li a:hover {
+    background-color: #f06400;
+    color: #ffffff;
+}

@@ -15,84 +15,139 @@ document.addEventListener("DOMContentLoaded", function () {
     let budget;
     let workers;
 
-    function addButton(cell) {
-        let img = cell.querySelector("img");
-        if (img && (img.src.includes("upgrade") || img.src.includes("road"))) return;
-
-        let addButton = document.createElement("button");
-        addButton.textContent = img ? "Покращити" : "Додати";
-        addButton.classList.add("add-btn");
-        cell.appendChild(addButton);
-
-        addButton.addEventListener("click", function (e) {
-            e.stopPropagation();
-            if (img) {
-                improveObject(cell);
-            } else {
-                selectedCell = cell;
-                document.getElementById("construction").scrollIntoView({ behavior: "smooth" });
-            }
-        });
-    }
-
-    function improveObject(cell) {
-        let img = cell.querySelector("img");
-        if (!img || img.src.includes("upgrade") || img.src.includes("road")) return;
-    
-        const selectedObject = constructionType.value;
-        const selectedType = document.querySelector('input[name="workers"]:checked')?.value;
-        
-    
-        // Логування для перевірки наявності ресурсів
-        console.log("Об'єкт:", selectedObject);
-        console.log("Тип:", selectedType);
-        console.log("Ресурси для об'єкта:", resources[selectedObject]);
-        console.log("Ресурси для типу:", resources[selectedObject]?.[selectedType]);
-    
-        const upgradeResources = resources[selectedObject]?.[selectedType]?.upgrade;
-    
-        if (!upgradeResources) {
-            alert("Дані про покращення для цього об'єкта відсутні.");
-            return;
-        }
-    
-        for (let material in upgradeResources.materials) {
-            if ((materials[material] || 0) < upgradeResources.materials[material]) {
-                alert("Недостатньо ресурсів для покращення!");
-                return;
-            }
-        }
-    
-        if ((budget || 0) < upgradeResources.budget) {
-            alert("Недостатньо коштів для покращення!");
-            return;
-        }
-    
-        if ((workers || 0) < upgradeResources.workers) {
-            alert("Недостатньо робітників для покращення!");
-            return;
-        }
-    
-        for (let material in upgradeResources.materials) {
-            materials[material] -= upgradeResources.materials[material];
-        }
-        budget -= upgradeResources.budget;
-        workers -= upgradeResources.workers;
-    
-        updateResourcesTable();
-    
-        img.src = img.src.replace(/(\w+\.png)/, "upgrade$1");
-        cell.querySelector(".add-btn")?.remove();
-    }
-
     for (let i = 0; i < 10000; i++) {
         let cell = document.createElement("div");
         cell.classList.add("map-cell");
-        cell.addEventListener("mouseenter", () => addButton(cell));
-        cell.addEventListener("mouseleave", () => cell.querySelector(".add-btn")?.remove());
+    
+        let addButton = document.createElement("button");
+        addButton.textContent = "Додати";
+        addButton.classList.add("cell-btn");
+    
+        let cancelButton = document.createElement("button");
+        cancelButton.textContent = "Скасувати";
+        cancelButton.classList.add("cell-btn");
+        cancelButton.style.display = "none";
+    
+        let improveButton = document.createElement("button");
+        improveButton.textContent = "Покращити";
+        improveButton.classList.add("cell-btn");
+        improveButton.style.display = "none";
+    
+        cell.appendChild(addButton);
+        cell.appendChild(cancelButton);
+        cell.appendChild(improveButton);
+    
         mapContainer.appendChild(cell);
+    
+        addButton.addEventListener("click", function (e) {
+            e.stopPropagation();
+    
+            // Якщо вже є вибрана клітинка — скидаємо її
+            if (selectedCell && selectedCell !== cell) {
+                let previousAdd = selectedCell.querySelector("button:nth-child(1)");
+                let previousCancel = selectedCell.querySelector("button:nth-child(2)");
+                let previousImprove = selectedCell.querySelector("button:nth-child(3)");
+    
+                selectedCell.style.backgroundColor = "";
+                previousAdd.style.display = "block";
+                previousCancel.style.display = "none";
+                previousImprove.style.display = "none";
+            }
+    
+            // Активуємо нову клітинку
+            cell.style.backgroundColor = "#ccc";
+            addButton.style.display = "none";
+            cancelButton.style.display = "";
+            improveButton.style.display = "none";
+    
+            selectedCell = cell;
+    
+            constructionType.disabled = false;
+            document.getElementById("construction").scrollIntoView({ behavior: "smooth" });
+        });
+    
+        cancelButton.addEventListener("click", function (e) {
+            e.stopPropagation();
+    
+            cell.style.backgroundColor = "";
+            addButton.style.display = "";
+            cancelButton.style.display = "none";
+            improveButton.style.display = "none";
+            
+            // Якщо користувач скасував саме цю клітинку — обнуляємо selectedCell
+            if (selectedCell === cell) {
+                selectedCell = null;
+            }
+            constructionType.disabled = true;
+        });
+
+    // Додаємо обробник події на кнопку "Покращити"
+// Додаємо обробник події на кнопку "Покращити"
+improveButton.addEventListener("click", function (e) {
+    e.stopPropagation();
+
+    // Викликаємо функцію покращення і перевіряємо результат
+    const success = improveObject(cell);
+
+    if (success) {
+        // Якщо покращення відбулося — ховаємо кнопки
+        improveButton.style.display = "none";
+        cancelButton.style.display = "none";
+        addButton.style.display = "none";
+
+        // Скидаємо вибір клітинки
+        selectedCell = null;
+    }
+});
+}
+
+function improveObject(cell) {
+    let img = cell.querySelector("img");
+
+    const selectedObject = constructionType.value;
+    const selectedType = document.querySelector('input[name="workers"]:checked')?.value;
+
+    const upgradeResources = resources[selectedObject]?.[selectedType]?.upgrade;
+
+    if (!upgradeResources) {
+        alert("Дані про покращення для цього об'єкта відсутні.");
+        return false;
     }
 
+    // Перевірка на наявність ресурсів
+    for (let material in upgradeResources.materials) {
+        if ((materials[material] || 0) < upgradeResources.materials[material]) {
+            alert("Недостатньо ресурсів для покращення!");
+            return false;
+        }
+    }
+
+    if ((budget || 0) < upgradeResources.budget) {
+        alert("Недостатньо коштів для покращення!");
+        return false;
+    }
+
+    if ((workers || 0) < upgradeResources.workers) {
+        alert("Недостатньо робітників для покращення!");
+        return false;
+    }
+
+    // Віднімаємо ресурси
+    for (let material in upgradeResources.materials) {
+        materials[material] -= upgradeResources.materials[material];
+    }
+    budget -= upgradeResources.budget;
+    workers -= upgradeResources.workers;
+
+    updateResourcesTable();
+
+    // Оновлюємо зображення — додаємо "upgrade" в ім'я
+    img.src = img.src.replace(/([^/]+)\.png$/, "upgrade$1.png");
+
+    return true; // Повертаємо успіх
+}
+
+    /*Додавання об'єкта на клітинку*/
     submitButton.addEventListener("click", function (e) {
         e.preventDefault();
         const selectedObject = constructionType.value;
@@ -102,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectedResources = resources[selectedObject]?.[selectedType];
         if (!selectedResources) return;
     
-        // Перевірка на наявність достатніх матеріалів
+        // Перевірка ресурсів
         for (let material in selectedResources.materials) {
             if ((materials[material] || 0) < selectedResources.materials[material]) {
                 alert("Недостатньо матеріалів для побудови!");
@@ -110,39 +165,66 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     
-        // Перевірка на наявність достатнього бюджету
-        const requiredBudget = selectedResources.budget;
-        if ((budget || 0) < requiredBudget) {
+        if ((budget || 0) < selectedResources.budget) {
             alert("Недостатньо коштів для побудови!");
             return;
         }
     
-        // Перевірка на наявність достатньої кількості робітників
-        const requiredWorkers = selectedResources.workers;
-        if ((workers || 0) < requiredWorkers) {
+        if ((workers || 0) < selectedResources.workers) {
             alert("Недостатньо робітників для побудови!");
             return;
         }
     
-        // Віднімаємо матеріали, бюджет та робітників
+        // Віднімаємо ресурси
         for (let material in selectedResources.materials) {
             materials[material] -= selectedResources.materials[material];
         }
-        budget -= requiredBudget;
-        workers -= requiredWorkers;
+        budget -= selectedResources.budget;
+        workers -= selectedResources.workers;
     
-        updateResourcesTable(); // Оновлюємо таблицю матеріалів
+        updateResourcesTable();
     
-        // Створюємо об'єкт на карті
-        let img = document.createElement("img");
+        // Додаємо зображення, не очищаючи кнопки
+        const img = document.createElement("img");
         img.src = `/lab2/images/${selectedObject}${selectedType.replace("type", "")}.png`;
         img.classList.add("map-object");
-        selectedCell.innerHTML = "";
-        selectedCell.appendChild(img);
+    
+        // Перевіряємо, чи вже є зображення, якщо так — замінюємо
+        const existingImg = selectedCell.querySelector("img");
+        if (existingImg) {
+            selectedCell.replaceChild(img, existingImg);
+        } else {
+            selectedCell.insertBefore(img, selectedCell.firstChild); // вставляємо перед кнопками
+        }
+    
+        // Показуємо кнопку "Покращити"
+        const buttons = selectedCell.querySelectorAll("button");
+        const addButton = buttons[0];
+        const cancelButton = buttons[1];
+        const improveButton = buttons[2];
+    
+        addButton.style.display = "none";
+        cancelButton.style.display = "none";
+        
+        if (selectedObject !== "road") {
+            improveButton.style.display = "";
+        } else {
+            improveButton.style.display = "none";
+        }
+    
+        // Скидаємо активну клітинку
         selectedCell = null;
+    
         mapContainer.scrollIntoView({ behavior: "smooth" });
+        constructionType.disabled = true;
+        formGroupType.style.display = "none";
+        imageOptions.style.display = "none";
+        resourceInput.parentElement.style.display = "none";
+        submitButton.style.display = "none";
     });
     
+    
+    /*Оновлення таблиці ресурсів*/
     function updateResourcesTable() {
         // Оновлення таблиці матеріалів
         const materialsTableBody = document.getElementById("materials-table-body");
@@ -165,18 +247,13 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch("data.json");
             const data = await response.json();
-    
-            // Оновлення бюджету
-            document.getElementById("budget").textContent = data.budget.toLocaleString();
-            document.getElementById("workers-count").textContent = data.workers.toLocaleString();
-            // Збереження даних
+
             materials = data.materials;
             resources = data.resources;
             budget = data.budget;
             workers = data.workers;
             typeImages = data.typeImages;
     
-            // Оновлення таблиці матеріалів
             updateResourcesTable();
 
         } catch (error) {
@@ -184,7 +261,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
-    // Викликаємо завантаження JSON перед використанням
     loadJSON();
 
     // Спочатку ховаємо все, крім вибору об'єкта
@@ -219,10 +295,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 label.style.display = "none";
             }
         });
-
-        // Ховаємо ресурси та кнопку
-        resourceInput.parentElement.style.display = "none";
-        submitButton.style.display = "none";
     }
 
     // Коли змінюється вибір об’єкта
