@@ -1,15 +1,30 @@
 footer {
-    text-align: center;
-    background-color: #000000;
-    color: white;
-    padding: 30px 20px;
-    font-size: 16px;
-    margin-top: 50px;
-    border-top: 2px solid #333;
+    position: relative;          
+    bottom: 0;
+    left: 0;
     width: 100%;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    font-size: 16px;
+    padding: 30px 20px;
+    border-top: 2px solid #333;
     box-sizing: border-box;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px; 
+  }
+  
+  footer p {
+    margin: 0; 
+  }
+
+@media (max-width: 768px) {
+    footer {
+        font-size: 14px;
+        padding: 20px;
+    }
 }
 
-footer p {
-    margin: 0;
-}

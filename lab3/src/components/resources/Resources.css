@@ -9,13 +9,11 @@
     text-align: center;
 }
 
-/* Поле для ресурсів */
 #needresources {
     font-size: 14px;
     font-weight: 700;
     display: block;
     resize: none; 
-    overflow: hidden; 
     width: 15%;
     height: 90px;
     text-align: center; 
@@ -26,22 +24,19 @@
     margin: 30px auto 0px auto; 
 }
 
-/* Контейнер для таблиць: робить їх у рядок */
 .tables-container {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
     gap: 20px;
-    flex-wrap: wrap; /* Щоб таблиці не ламались на маленьких екранах */
+    flex-wrap: wrap; 
 }
 
-/* Стилізація таблиць */
 table {
-    border-collapse: collapse;
+    border-collapse: collapse; /* Зливаю межклітинні кордони */
     text-align: center;
 }
 
-/* Основні стилі для матеріалів */
 .materials-table {
     width: 40%;
 }
@@ -50,7 +45,6 @@ table {
     width: 25%;
 }
 
-/* Заголовки таблиць */
 thead {
     background-color: #333;
     color: white;
@@ -61,11 +55,26 @@ th, td {
     padding: 10px;
 }
 
-/* Фон чергується в таблиці матеріалів */
 .resources tbody {
     background-color: #ffffff;
 }
 
 .resources tbody tr:hover {
     background-color: #eaeaea;
+}
+
+@media (max-width: 768px) {
+    #resources{
+        width: 80%;
+    }
+
+    .tables-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .materials-table,
+    .info-table {
+        width: 90%;
+    }
 }
