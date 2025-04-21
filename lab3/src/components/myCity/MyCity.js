@@ -1,27 +1,326 @@
 import React, { useEffect, useState } from "react";
 import "./MyCity.css";
-import { useLocation } from 'react-router-dom';
-import Building from "../building/Building";
-
+import { useLocation } from "react-router-dom";
+import { useCity } from '../../context/cityContext';
 
 const MyCity = () => {
-  
   const location = useLocation();
+  const [selectedCell, setSelectedCell] = useState(null);
+  const [selectedObjectType, setSelectedObjectType] = useState("choice");
+  const [selectedType, setSelectedType] = useState("");
+  const [availableImages, setAvailableImages] = useState([]);
+  const [resourceText, setResourceText] = useState("");
+  const [isFormEnabled, setIsFormEnabled] = useState(false);
 
+  // 💡 Тепер cells приходять з context'у, а не створюються локально
+  const {
+    budget,
+    materials,
+    workers,
+    resources,
+    typeImages,
+    cells,
+    updateCells,
+    updateResources,
+  } = useCity();
+
+  // Прокрутка до секції будівництва, якщо хеш "#construction"
   useEffect(() => {
-    if (location.hash === '#construction') {
-      const el = document.getElementById('construction');
+    if (location.hash === "#construction") {
+      const el = document.getElementById("construction");
       if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+        el.scrollIntoView({ behavior: "smooth" });
       }
     }
   }, [location]);
 
+  // Обробка додавання об'єкта
+  const handleAddClick = (index) => {
+    const updated = cells.map((cell, i) => {
+      if (i === index) {
+        return { ...cell, isSelected: true };
+      }
+      return { ...cell, isSelected: false };
+    });
+
+    updateCells(updated);
+    setSelectedCell(index);
+    setIsFormEnabled(true);
+
+    // Скрол до секції будівництва
+    setTimeout(() => {
+      const el = document.getElementById("construction");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 0);
+  };
+
+  // Скасування вибору об'єкта
+  const handleCancelClick = (index) => {
+    const updated = cells.map((cell, i) => {
+      if (i === index) {
+        return { ...cell, isSelected: false };
+      }
+      return cell;
+    });
+
+    updateCells(updated);
+    setIsFormEnabled(false);
+    setSelectedObjectType("choice");
+    setSelectedType("");
+    setAvailableImages([]); 
+    setResourceText("");
+
+    if (selectedCell === index) {
+      setSelectedCell(null);
+    }
+  };
+
+  // Покращення об'єкта
+  const handleImproveClick = (index) => {
+    const updated = cells.map((cell, i) => {
+      if (i === index) {
+        return {
+          ...cell,
+          isSelected: false,
+          isImproved: true,
+        };
+      }
+      return cell;
+    });
+
+    updateCells(updated);
+    setSelectedCell(null);
+  };
+
+  // Зміна об'єкта для побудови
+  const handleObjectTypeChange = (e) => {
+    const value = e.target.value;
+    setSelectedObjectType(value);
+    setSelectedType("");
+    setResourceText("");
+  
+    if (typeImages[value]) {
+      setAvailableImages(typeImages[value]);
+    } else {
+      setAvailableImages([]);
+    }
+  };
+
+  // Зміна типу об'єкта для побудови
+  const handleImageTypeChange = (e) => {
+    const type = e.target.value;
+    setSelectedType(type);
+  
+    if (
+      resources[selectedObjectType] &&
+      resources[selectedObjectType][type]
+    ) {
+      const { materials, budget, workers } =
+        resources[selectedObjectType][type];
+  
+      let resText = Object.entries(materials)
+        .map(([mat, val]) => `${mat}: ${val}`)
+        .join("\n");
+      resText += `\nБюджет: ${budget}\nРобітники: ${workers}`;
+  
+      setResourceText(resText);
+    } else {
+      setResourceText("Невідомі ресурси");
+    }
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    if (
+      selectedCell === null ||
+      selectedObjectType === "choice" ||
+      !selectedType ||
+      !resources[selectedObjectType]?.[selectedType]
+    ) {
+      alert("Виберіть об'єкт, тип і клітинку!");
+      return;
+    }
+  
+    const selectedResources = resources[selectedObjectType][selectedType];
+  
+    // Логування всіх ресурсів для вибраного типу об'єкта
+    console.log("Обрані ресурси:", selectedResources);
+  
+    // Логування доступних матеріалів в контексті
+    console.log("Доступні матеріали в контексті:", materials);
+  
+    // Перевірка матеріалів
+    const hasEnoughMaterials = Object.entries(selectedResources.materials).every(
+      ([name, amount]) => {
+        const materialAmount = materials[name];
+        console.log(`Матеріал: ${name}, необхідно: ${amount}, доступно: ${materialAmount}`);
+        if (materialAmount !== undefined) {
+          return materialAmount >= amount;
+        } else {
+          console.error("Матеріал не знайдений у ресурсах:", name);
+          return false;
+        }
+      }
+    );
+  
+    if (!hasEnoughMaterials) {
+      alert("Недостатньо матеріалів для побудови!");
+      return;
+    }
+  
+    // Перевірка бюджету
+    if (budget < selectedResources.budget) {
+      alert("Недостатньо коштів для побудови!");
+      return;
+    }
+  
+    // Перевірка кількості робітників
+    if (workers < selectedResources.workers) {
+      alert("Недостатньо робітників для побудови!");
+      return;
+    }
+  
+    const updatedMaterials = { ...materials };
+    Object.entries(selectedResources.materials).forEach(([name, amount]) => {
+      if (updatedMaterials[name] !== undefined) {
+        updatedMaterials[name] -= amount;
+      }
+    });
+  
+    // Оновлення ресурсів через контекст
+    updateResources(updatedMaterials, budget - selectedResources.budget, workers - selectedResources.workers);
+  
+    // Додавання об'єкта до клітинки
+    const updatedCells = cells.map((cell, i) => {
+      if (i === selectedCell) {
+        return {
+          ...cell,
+          hasObject: true,
+          isSelected: false,
+          objectImage: `/images/${selectedObjectType}${selectedType.replace("type", "")}.png`,
+        };
+      }
+      return cell;
+    });
+  
+    updateCells(updatedCells);
+    setSelectedCell(null);
+    setIsFormEnabled(false);
+    setSelectedObjectType("choice");
+    setSelectedType("");
+    setAvailableImages([]); 
+    setResourceText("");
+  };
+  
+  
   return (
     <div id="city">
       <h1 className="zagolovki">Моє місто</h1>
       <div className="wrapper">
-        <div className="map-container"></div>
+        <div className="map-container">
+          {cells.map((cell, index) => (
+            <div
+              key={index}
+              className="map-cell"
+              style={{
+                backgroundColor: cell.isSelected ? "#ccc" : "",
+              }}
+            >
+              {cell.hasObject && cell.objectImage && (
+                <img src={cell.objectImage} alt="Об'єкт" className="map-object" />
+              )}
+
+              {/* Кнопка "Додати" */}
+              {!cell.isSelected && !cell.hasObject && !cell.isImproved && (
+                <button
+                  className="cell-btn"
+                  onClick={() => handleAddClick(index)}
+                >
+                  Додати
+                </button>
+              )}
+
+              {/* Кнопка "Скасувати" */}
+              {cell.isSelected && !cell.hasObject && !cell.isImproved && (
+                <button
+                  className="cell-btn"
+                  onClick={() => handleCancelClick(index)}
+                >
+                  Скасувати
+                </button>
+              )}
+
+              {/* Кнопка "Покращити" */}
+              {cell.hasObject && !cell.isImproved && (
+                <button
+                  className="cell-btn"
+                  onClick={() => handleImproveClick(index)}
+                >
+                  Покращити
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div> 
+      <div id="construction">
+        <h1 className="zagolovki">Будівництво</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="construction-type">Виберіть об'єкт для побудови:</label>
+            <select
+              name="construction-type"
+              id="construction-type"
+              disabled={!isFormEnabled}
+              value={selectedObjectType}
+              onChange={handleObjectTypeChange}
+            >
+              <option value="choice">Вибрати</option>
+              <option value="house">Будинок</option>
+              <option value="institution">Установа</option>
+              <option value="road">Дорога</option>
+            </select>
+          </div>
+
+          {availableImages.length > 0 && (
+            <div className="form-group">
+              <label>Виберіть тип:</label>
+              <div className="image-options">
+                {availableImages.map((src, index) => (
+                  <label key={index}>
+                    <input
+                      type="radio"
+                      name="type"
+                      value={`type${index + 1}`}
+                      checked={selectedType === `type${index + 1}`}
+                      onChange={handleImageTypeChange}
+                    />
+                    <img src={src} alt={`Тип ${index + 1}`} />
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {resourceText && (
+            <div className="form-group">
+              <label htmlFor="needresources">Необхідні ресурси:</label>
+              <textarea
+                id="needresources"
+                rows="5"
+                readOnly
+                value={resourceText}
+              />
+            </div>
+          )}
+
+          {resourceText && (
+            <button type="submit">Додати об'єкт</button>
+          )}
+        </form>
       </div>
     </div>
   );

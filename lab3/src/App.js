@@ -3,32 +3,25 @@ import './App.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import MyCity from './components/myCity/MyCity';
-import Building from './components/building/Building';
 import Resources from './components/resources/Resources';
+import { CityProvider } from './context/cityContext';
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
-        <main>
-        <Routes>
-          {/* Головна сторінка */}
-          <Route
-            path="/myCity"
-            element={
-              <>
-                <MyCity />
-                <Building />
-              </>
-            }
-          />
-          
-          {/* Сторінка ресурсів */}
-          <Route path="/resources" element={<Resources />} />
-        </Routes>
-        </main>
-        <Footer />
+        {/* Переміщаємо CityProvider навколо компонентів, щоб він охоплював всю частину додатку */}
+        <CityProvider> 
+          <Header /> {/* Завжди буде відображатися */}
+          <main>
+            <Routes>
+              {/* Маршрути для сторінок */}
+              <Route path="/myCity" element={<MyCity />} />
+              <Route path="/resources" element={<Resources />} />
+            </Routes>
+          </main>
+          <Footer /> {/* Завжди буде відображатися */}
+        </CityProvider>
       </Router>
     </div>
   );
