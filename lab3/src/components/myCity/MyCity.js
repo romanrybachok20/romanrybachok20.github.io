@@ -79,21 +79,94 @@ const MyCity = () => {
 
   // Покращення об'єкта
   const handleImproveClick = (index) => {
-    const updated = cells.map((cell, i) => {
+    const cell = cells[index];
+  
+    if (!cell.hasObject) {
+      alert("На цій клітинці немає об'єкта для покращення!");
+      return;
+    }
+  
+    // Витягуємо назву об'єкта, наприклад: house1 з /images/house1.png
+    const match = cell.objectImage.match(/\/images\/(\w+)\.png/);
+    const baseImageName = match ? match[1] : null;
+  
+    if (!baseImageName) {
+      alert("Не вдалося визначити базове зображення об'єкта.");
+      return;
+    }
+  
+    if (baseImageName.startsWith("upgrade")) {
+      alert("Цей об'єкт уже покращено!");
+      return;
+    }
+  
+    const objectTypeMatch = baseImageName.match(/^([a-zA-Z]+)/);
+    const selectedObjectType = objectTypeMatch ? objectTypeMatch[1] : null;
+  
+    const typeNumberMatch = baseImageName.match(/\d+/);
+    const selectedType = typeNumberMatch ? `type${typeNumberMatch[0]}` : null;
+  
+    if (!selectedObjectType || !selectedType) {
+      alert("Не вдалося визначити тип об'єкта.");
+      return;
+    }
+  
+    const upgradeResources = resources[selectedObjectType]?.[selectedType];
+  
+    if (!upgradeResources) {
+      alert("Немає ресурсів для покращення цього об'єкта.");
+      return;
+    }
+  
+    const hasEnoughMaterials = Object.entries(upgradeResources.materials).every(
+      ([name, amount]) => {
+        const materialAmount = materials[name];
+        return materialAmount !== undefined && materialAmount >= amount;
+      }
+    );
+  
+    if (!hasEnoughMaterials) {
+      alert("Недостатньо матеріалів для покращення!");
+      return;
+    }
+  
+    if (budget < upgradeResources.budget) {
+      alert("Недостатньо коштів для покращення!");
+      return;
+    }
+  
+    if (workers < upgradeResources.workers) {
+      alert("Недостатньо робітників для покращення!");
+      return;
+    }
+  
+    const updatedMaterials = { ...materials };
+    Object.entries(upgradeResources.materials).forEach(([name, amount]) => {
+      updatedMaterials[name] -= amount;
+    });
+  
+    updateResources(
+      updatedMaterials,
+      budget - upgradeResources.budget,
+      workers - upgradeResources.workers
+    );
+  
+    const upgradedImage = `/images/upgrade${baseImageName}.png`;
+  
+    const updatedCells = cells.map((c, i) => {
       if (i === index) {
         return {
-          ...cell,
-          isSelected: false,
-          isImproved: true,
+          ...c,
+          objectImage: upgradedImage,
+          isImproved: true, // можна додати прапор, якщо хочеш
         };
       }
-      return cell;
+      return c;
     });
-
-    updateCells(updated);
-    setSelectedCell(null);
+  
+    updateCells(updatedCells);
   };
-
+  
   // Зміна об'єкта для побудови
   const handleObjectTypeChange = (e) => {
     const value = e.target.value;
@@ -254,12 +327,12 @@ const MyCity = () => {
               )}
 
               {/* Кнопка "Покращити" */}
-              {cell.hasObject && !cell.isImproved && (
+              {cell.hasObject && !cell.isImproved && cell.objectImage && !cell.objectImage.includes("road") && (
                 <button
-                  className="cell-btn"
-                  onClick={() => handleImproveClick(index)}
-                >
-                  Покращити
+                className="cell-btn"
+                onClick={() => handleImproveClick(index)}
+              >
+                Покращити
                 </button>
               )}
             </div>
