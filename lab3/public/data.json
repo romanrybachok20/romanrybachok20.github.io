@@ -11,31 +11,31 @@
 
     "typeImages": {
       "road": [
-        "/lab2/images/road1.png",
-        "/lab2/images/road2.png",
-        "/lab2/images/road3.png",
-        "/lab2/images/road4.png",
-        "/lab2/images/road5.png",
-        "/lab2/images/road6.png",
-        "/lab2/images/road7.png",
-        "/lab2/images/road8.png",
-        "/lab2/images/road9.png",
-        "/lab2/images/road10.png",
-        "/lab2/images/road11.png",
-        "/lab2/images/road12.png"
+        "/images/road1.png",
+        "/images/road2.png",
+        "/images/road3.png",
+        "/images/road4.png",
+        "/images/road5.png",
+        "/images/road6.png",
+        "/images/road7.png",
+        "/images/road8.png",
+        "/images/road9.png",
+        "/images/road10.png",
+        "/images/road11.png",
+        "/images/road12.png"
       ],
       "house": [
-        "/lab2/images/house1.png",
-        "/lab2/images/house2.png"
+        "/images/house1.png",
+        "/images/house2.png"
       ],
       "institution": [
-        "/lab2/images/institution1.png",
-        "/lab2/images/institution2.png",
-        "/lab2/images/institution3.png",
-        "/lab2/images/institution4.png",
-        "/lab2/images/institution5.png",
-        "/lab2/images/institution6.png",
-        "/lab2/images/institution7.png"
+        "/images/institution1.png",
+        "/images/institution2.png",
+        "/images/institution3.png",
+        "/images/institution4.png",
+        "/images/institution5.png",
+        "/images/institution6.png",
+        "/images/institution7.png"
       ]
     },
     
