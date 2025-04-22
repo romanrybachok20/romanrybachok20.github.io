@@ -10,17 +10,15 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {/* Переміщаємо CityProvider навколо компонентів, щоб він охоплював всю частину додатку */}
         <CityProvider> 
-          <Header /> {/* Завжди буде відображатися */}
+          <Header />
           <main>
             <Routes>
-              {/* Маршрути для сторінок */}
               <Route path="/myCity" element={<MyCity />} />
               <Route path="/resources" element={<Resources />} />
             </Routes>
           </main>
-          <Footer /> {/* Завжди буде відображатися */}
+          <Footer /> 
         </CityProvider>
       </Router>
     </div>

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useCity } from '../../context/cityContext';
 import "./Resources.css";
 
 const Resources = () => {
-  const { budget, materials, workers, updateResources } = useCity();
+  const { budget, materials, workers } = useCity();
 
   return (
     <div className="resources">

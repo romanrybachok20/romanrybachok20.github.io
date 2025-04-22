@@ -7,12 +7,12 @@ export const useCity = () => {
 };
 
 export const CityProvider = ({ children }) => {
-  const [cells, setCells] = useState([]); // Стан для клітинок
-  const [budget, setBudget] = useState(); // Початковий бюджет
-  const [materials, setMaterials] = useState({}); // Початкові матеріали
-  const [workers, setWorkers] = useState(); // Початкова кількість робітників
-  const [typeImages, setTypeImages] = useState({}); // Початкові зображення типів
-  const [resources, setResources] = useState({}); // Початкові ресурси
+  const [cells, setCells] = useState([]); 
+  const [budget, setBudget] = useState();
+  const [materials, setMaterials] = useState({}); 
+  const [workers, setWorkers] = useState();
+  const [typeImages, setTypeImages] = useState({});
+  const [resources, setResources] = useState({});
 
   useEffect(() => {
     const loadResources = async () => {
@@ -20,7 +20,6 @@ export const CityProvider = ({ children }) => {
         const response = await fetch('data.json');
         const data = await response.json();
 
-        // Завантажуємо дані в глобальні змінні
         setBudget(data.budget);
         setMaterials(data.materials);
         setWorkers(data.workers);
@@ -42,14 +41,12 @@ export const CityProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Очищаємо sessionStorage при перезавантаженні сторінки
     sessionStorage.removeItem('cells');
 
     const savedCells = sessionStorage.getItem('cells');
     if (savedCells) {
-      setCells(JSON.parse(savedCells)); // Завантажуємо клітинки з sessionStorage
+      setCells(JSON.parse(savedCells));  // Перетворюємо рядок JSON в масив об'єктів
     } else {
-      // Ініціалізація порожніх клітинок
       const initialCells = Array.from({ length: 10000 }, (_, index) => ({
         id: index,
         isSelected: false,
@@ -57,13 +54,13 @@ export const CityProvider = ({ children }) => {
         isImproved: false,
         objectImage: '',
       }));
-      updateCells(initialCells); // збереження в sessionStorage
+      updateCells(initialCells); 
     }
   }, []);
 
   const updateCells = (newCells) => {
     setCells(newCells);
-    sessionStorage.setItem('cells', JSON.stringify(newCells));  // Зберігаємо стан клітинок у sessionStorage
+    sessionStorage.setItem('cells', JSON.stringify(newCells)); 
   };
 
   return (
