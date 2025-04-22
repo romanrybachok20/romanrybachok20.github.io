@@ -12,7 +12,6 @@ const MyCity = () => {
   const [resourceText, setResourceText] = useState("");
   const [isFormEnabled, setIsFormEnabled] = useState(false);
 
-  // 💡 Тепер cells приходять з context'у, а не створюються локально
   const {
     budget,
     materials,
@@ -24,7 +23,6 @@ const MyCity = () => {
     updateResources,
   } = useCity();
 
-  // Прокрутка до секції будівництва, якщо хеш "#construction"
   useEffect(() => {
     if (location.hash === "#construction") {
       const el = document.getElementById("construction");
@@ -34,7 +32,6 @@ const MyCity = () => {
     }
   }, [location]);
 
-  // Обробка додавання об'єкта
   const handleAddClick = (index) => {
     const updated = cells.map((cell, i) => {
       if (i === index) {
@@ -47,7 +44,6 @@ const MyCity = () => {
     setSelectedCell(index);
     setIsFormEnabled(true);
 
-    // Скрол до секції будівництва
     setTimeout(() => {
       const el = document.getElementById("construction");
       if (el) {
@@ -56,7 +52,6 @@ const MyCity = () => {
     }, 0);
   };
 
-  // Скасування вибору об'єкта
   const handleCancelClick = (index) => {
     const updated = cells.map((cell, i) => {
       if (i === index) {
@@ -77,7 +72,6 @@ const MyCity = () => {
     }
   };
 
-  // Покращення об'єкта
   const handleImproveClick = (index) => {
     const cell = cells[index];
   
@@ -86,7 +80,6 @@ const MyCity = () => {
       return;
     }
   
-    // Витягуємо назву об'єкта, наприклад: house1 з /images/house1.png
     const match = cell.objectImage.match(/\/images\/(\w+)\.png/);
     const baseImageName = match ? match[1] : null;
   
@@ -158,7 +151,7 @@ const MyCity = () => {
         return {
           ...c,
           objectImage: upgradedImage,
-          isImproved: true, // можна додати прапор, якщо хочеш
+          isImproved: true,
         };
       }
       return c;
@@ -167,7 +160,6 @@ const MyCity = () => {
     updateCells(updatedCells);
   };
   
-  // Зміна об'єкта для побудови
   const handleObjectTypeChange = (e) => {
     const value = e.target.value;
     setSelectedObjectType(value);
@@ -181,7 +173,6 @@ const MyCity = () => {
     }
   };
 
-  // Зміна типу об'єкта для побудови
   const handleImageTypeChange = (e) => {
     const type = e.target.value;
     setSelectedType(type);
@@ -219,13 +210,6 @@ const MyCity = () => {
   
     const selectedResources = resources[selectedObjectType][selectedType];
   
-    // Логування всіх ресурсів для вибраного типу об'єкта
-    console.log("Обрані ресурси:", selectedResources);
-  
-    // Логування доступних матеріалів в контексті
-    console.log("Доступні матеріали в контексті:", materials);
-  
-    // Перевірка матеріалів
     const hasEnoughMaterials = Object.entries(selectedResources.materials).every(
       ([name, amount]) => {
         const materialAmount = materials[name];
@@ -244,13 +228,11 @@ const MyCity = () => {
       return;
     }
   
-    // Перевірка бюджету
     if (budget < selectedResources.budget) {
       alert("Недостатньо коштів для побудови!");
       return;
     }
-  
-    // Перевірка кількості робітників
+
     if (workers < selectedResources.workers) {
       alert("Недостатньо робітників для побудови!");
       return;
@@ -263,10 +245,8 @@ const MyCity = () => {
       }
     });
   
-    // Оновлення ресурсів через контекст
     updateResources(updatedMaterials, budget - selectedResources.budget, workers - selectedResources.workers);
   
-    // Додавання об'єкта до клітинки
     const updatedCells = cells.map((cell, i) => {
       if (i === selectedCell) {
         return {
@@ -286,6 +266,13 @@ const MyCity = () => {
     setSelectedType("");
     setAvailableImages([]); 
     setResourceText("");
+
+    setTimeout(() => {
+      const el = document.getElementById("city");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 0);
   };
   
   
