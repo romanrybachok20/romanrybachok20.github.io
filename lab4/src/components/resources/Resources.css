@@ -1,0 +1,80 @@
+#resources {
+    background-color: #ffffff;
+    padding: 25px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1280px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px #f06400;
+    text-align: center;
+}
+
+#needresources {
+    font-size: 14px;
+    font-weight: 700;
+    display: block;
+    resize: none; 
+    width: 15%;
+    height: 90px;
+    text-align: center; 
+    padding: 10px; 
+    border: 1px solid #000000; 
+    border-radius: 8px; 
+    background-color: #f1f0f0; 
+    margin: 30px auto 0px auto; 
+}
+
+.tables-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap; 
+}
+
+table {
+    border-collapse: collapse; /* Зливаю межклітинні кордони */
+    text-align: center;
+}
+
+.materials-table {
+    width: 40%;
+}
+
+.info-table {
+    width: 25%;
+}
+
+thead {
+    background-color: #333;
+    color: white;
+}
+
+th, td {
+    border: 1px solid #000000;
+    padding: 10px;
+}
+
+.resources tbody {
+    background-color: #ffffff;
+}
+
+.resources tbody tr:hover {
+    background-color: #eaeaea;
+}
+
+@media (max-width: 768px) {
+    #resources{
+        width: 80%;
+    }
+
+    .tables-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .materials-table,
+    .info-table {
+        width: 90%;
+    }
+}
