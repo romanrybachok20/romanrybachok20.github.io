@@ -1,4 +1,9 @@
-.zagolovki {
+#construction {
+    text-align: center;
+  }
+  
+  /* Заголовок */
+  .zagolovki {
     text-align: center;
     background: #ffffff;
     border-radius: 10px;
@@ -8,13 +13,10 @@
     width: 100%; 
     margin: 80px auto 20px auto;
     color: #f06400; 
-}
-
-#construction {
-    text-align: center;
-}
-
-form {
+  }
+  
+  /* Форма */
+  .construction-form {
     width: 84%;
     margin: 30px auto;
     background-color: #ffffff;
@@ -25,55 +27,29 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.form-group {
+  }
+  
+  /* Група елементів */
+  .form-group {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-}
-
-form label {
+  }
+  
+  /* Підпис до елементу */
+  .form-label {
     font-weight: 600;
     color: #000000;
     margin-bottom: 8px;
     font-size: 26px;
     padding-top: 20px;
-}
-
-.image-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    width: auto; 
-    max-width: 100%;
-    align-items: center;
-}
-
-.image-options input {
-    display: none;
-}
-
-.image-options img {
-    width: 100px;
-    height: 100px;
-    border: 2px solid transparent;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.image-options input:checked + img {
-    border-color: #f06400;
-    box-shadow: 0 0 10px #f06400;
-    transform: scale(1.07);
-}
-
-form select, form input {
+  }
+  
+  /* Випадаючий список та інпут */
+  .form-select, .form-input {
     width: 40%;
     padding: 10px;
     font-size: 24px;
@@ -81,13 +57,40 @@ form select, form input {
     border-radius: 5px;
     text-align: center;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-form select {
+  }
+  
+  /* Стилі для вибору типу */
+  .image-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: auto; 
+    max-width: 100%;
+    align-items: center;
+  }
+  
+  .image-options input {
+    display: none;
+  }
+  
+  .image-options img {
+    width: 100px;
+    height: 100px;
+    border: 2px solid transparent;
+    border-radius: 10px;
     cursor: pointer;
-}
-
-form button {
+    transition: 0.3s;
+  }
+  
+  .image-options input:checked + img {
+    border-color: #f06400;
+    box-shadow: 0 0 10px #f06400;
+    transform: scale(1.07);
+  }
+  
+  /* Кнопка */
+  .form-button {
     background-color: #4CAF50;
     width: 40%;
     color: white;
@@ -100,46 +103,48 @@ form button {
     cursor: pointer;
     font-size: 40px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-form button:hover {
+  }
+  
+  .form-button:hover {
     background-color: #45a049;
     transform: scale(1.03);
-}
-
-form button:active {
+  }
+  
+  .form-button:active {
     transform: scale(1);
-}
-
-@media (max-width: 768px) {
+  }
+  
+  /* Адаптивність */
+  @media (max-width: 768px) {
     .zagolovki {
-        font-size: 24px;
-        padding: 5px;
-        max-width: 60%;
+      font-size: 24px;
+      padding: 5px;
+      max-width: 60%;
     }
     
-    form {
-        width: 80%;
-        padding: 20px;
+    .construction-form {
+      width: 80%;
+      padding: 20px;
     }
-
-    .form-group label {
-        font-size: 20px;
+  
+    .form-label {
+      font-size: 20px;
     }
-
-    form select,
-    form input {
-        width: 80%;
-        font-size: 18px;
+  
+    .form-select,
+    .form-input {
+      width: 80%;
+      font-size: 18px;
     }
-
-    form button {
-        width: 80%;
-        font-size: 24px;
+  
+    .form-button {
+      width: 80%;
+      font-size: 24px;
     }
-
+  
     .image-options img {
-        width: 80px;
-        height: 80px;
+      width: 80px;
+      height: 80px;
     }
-}
+  }
+  

@@ -18,7 +18,7 @@ const Building = ({ isFormEnabled, selectedCell, setIsFormEnabled, setSelectedCe
     updateCells,
     updateResources,
   } = useCity();
-
+  
   const handleObjectTypeChange = (e) => {
     const value = e.target.value;
     setSelectedObjectType(value);
@@ -119,11 +119,12 @@ const Building = ({ isFormEnabled, selectedCell, setIsFormEnabled, setSelectedCe
   return (
     <div id="construction">
       <h1 className="zagolovki">Будівництво</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="construction-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="construction-type">Виберіть об'єкт для побудови:</label>
+          <label className="form-label" htmlFor="construction-type">Виберіть об'єкт для побудови:</label>
           <select
             id="construction-type"
+            className="form-select"
             disabled={!isFormEnabled}
             value={selectedObjectType}
             onChange={handleObjectTypeChange}
@@ -134,10 +135,10 @@ const Building = ({ isFormEnabled, selectedCell, setIsFormEnabled, setSelectedCe
             <option value="road">Дорога</option>
           </select>
         </div>
-
+  
         {availableImages.length > 0 && (
           <div className="form-group">
-            <label>Виберіть тип:</label>
+            <label className="form-label">Виберіть тип:</label>
             <div className="image-options">
               {availableImages.map((src, index) => (
                 <label key={index}>
@@ -154,16 +155,16 @@ const Building = ({ isFormEnabled, selectedCell, setIsFormEnabled, setSelectedCe
             </div>
           </div>
         )}
-
+  
         {resourceText && (
           <div className="form-group">
-            <label htmlFor="needresources">Необхідні ресурси:</label>
-            <textarea id="needresources" rows="5" readOnly value={resourceText} />
+            <label className="form-label" htmlFor="needresources">Необхідні ресурси:</label>
+            <textarea id="needresources" className="form-input" rows="5" readOnly value={resourceText} />
           </div>
         )}
-
+  
         {resourceText && (
-          <button type="submit">Додати об'єкт</button>
+          <button type="submit" className="form-button">Додати об'єкт</button>
         )}
       </form>
     </div>
