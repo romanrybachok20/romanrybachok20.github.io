@@ -1,4 +1,4 @@
-/* Навігація */
+/* Стилі для навігаційної панелі */
 nav {
     display: flex;
     justify-content: space-between;
@@ -16,7 +16,7 @@ nav {
     margin: 0;
     font-weight: 700;
     letter-spacing: 1px;
-    text-transform: uppercase; /* ВСІ БУКВИ ВЕЛИКІ */
+    text-transform: uppercase;
     -webkit-user-select: none;
     cursor: default; 
 }
@@ -48,6 +48,25 @@ nav .nav-menu li a:hover {
     color: #ffffff;
 }
 
+/* Стилі для кнопки "Вийти" */
+.sign-out-btn {
+    color: rgb(255, 255, 255);
+    background-color: #f06400;
+    border: 2px solid #000000;
+    font-size: 27px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    letter-spacing: 0.5px;
+}
+
+.sign-out-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Медіа-запити */
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
@@ -74,16 +93,21 @@ nav .nav-menu li a:hover {
         font-size: 20px;
         padding: 10px 10px;
     }
+
+    .sign-out-btn {
+        font-size: 20px;
+        padding: 10px 12px;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 882px) {
     nav {
-        padding: 15px 50px; 
+        padding: 15px 50px;
     }
 
     nav .nav-menu {
-        justify-content: center; 
-        gap: 10px; 
+        justify-content: center;
+        gap: 10px;
     }
 
     nav .nav-menu li {
@@ -91,7 +115,7 @@ nav .nav-menu li a:hover {
     }
 
     nav .nav-menu li a {
-        font-size: 27px; 
-        padding: 6px 10px; 
+        font-size: 27px;
+        padding: 6px 10px;
     }
 }
