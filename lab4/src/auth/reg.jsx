@@ -35,7 +35,7 @@ const Register = () => {
 
     return (
         <>
-            {userLoggedIn && (<Navigate to="/home" replace />)}
+            {userLoggedIn && (<Navigate to="/MyCity" replace />)}
 
             <main className="auth-container">
                 <div className="auth-card">
