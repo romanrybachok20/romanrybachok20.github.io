@@ -59,7 +59,6 @@ const MyCity = () => {
     const cell = cells[index];
 
     if (!cell.hasObject) {
-      alert("На цій клітинці немає об'єкта для покращення!");
       return;
     }
 
@@ -67,12 +66,10 @@ const MyCity = () => {
     const baseImageName = match ? match[1] : null;
 
     if (!baseImageName) {
-      alert("Не вдалося визначити базове зображення об'єкта.");
       return;
     }
 
     if (baseImageName.startsWith("upgrade")) {
-      alert("Цей об'єкт уже покращено!");
       return;
     }
 
@@ -83,14 +80,12 @@ const MyCity = () => {
     const selectedType = typeNumberMatch ? `type${typeNumberMatch[0]}` : null;
 
     if (!selectedObjectType || !selectedType) {
-      alert("Не вдалося визначити тип об'єкта.");
       return;
     }
 
     const upgradeResources = resources[selectedObjectType]?.[selectedType];
 
     if (!upgradeResources) {
-      alert("Немає ресурсів для покращення цього об'єкта.");
       return;
     }
 
@@ -99,17 +94,14 @@ const MyCity = () => {
     );
 
     if (!hasEnoughMaterials) {
-      alert("Недостатньо матеріалів для покращення!");
       return;
     }
 
     if (budget < upgradeResources.budget) {
-      alert("Недостатньо коштів для покращення!");
       return;
     }
 
     if (workers < upgradeResources.workers) {
-      alert("Недостатньо робітників для покращення!");
       return;
     }
 
