@@ -57,7 +57,6 @@ const Building = ({ isFormEnabled, selectedCell, setIsFormEnabled, setSelectedCe
       !selectedType ||
       !resources[selectedObjectType]?.[selectedType]
     ) {
-      alert("Виберіть об'єкт, тип і клітинку!");
       return;
     }
 
@@ -67,17 +66,14 @@ const Building = ({ isFormEnabled, selectedCell, setIsFormEnabled, setSelectedCe
     );
 
     if (!hasEnoughMaterials) {
-      alert("Недостатньо матеріалів для побудови!");
       return;
     }
 
     if (budget < selectedResources.budget) {
-      alert("Недостатньо коштів для побудови!");
       return;
     }
 
     if (workers < selectedResources.workers) {
-      alert("Недостатньо робітників для побудови!");
       return;
     }
 
