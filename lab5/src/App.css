@@ -1,9 +1,0 @@
-.App {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.App > main {
-  flex: 1; /* основний контент займає доступну висоту */
-}
