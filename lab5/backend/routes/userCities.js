@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/firebaseAdmin');
 
-// GET /api/userCities/:userId – отримати дані про ресурси і клітинки користувача
 router.get('/:userId', async (req, res) => {
   const { userId } = req.params;
 
@@ -20,7 +19,6 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// PUT /api/userCities/:userId – оновити ресурси або клітинки
 router.put('/:userId', async (req, res) => {
   const { userId } = req.params;
   const updateData = req.body;

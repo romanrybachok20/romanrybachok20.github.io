@@ -67,11 +67,11 @@ export const CityProvider = ({ children }) => {
       if (data.materials !== undefined) setMaterials(data.materials);
       if (data.workers !== undefined) setWorkers(data.workers);
 
-      await loadMetaResources(); // лише додаткові ресурси
     } catch (error) {
-      console.error("❌ Помилка при завантаженні міста користувача з бекенду:", error);
+      console.error("Помилка при завантаженні міста користувача з бекенду:", error);
       setCells(generateInitialCells());
-      await loadMetaResources();
+    } finally {
+    await loadMetaResources();
     }
   };
 
@@ -106,9 +106,9 @@ export const CityProvider = ({ children }) => {
 
       if (!response.ok) throw new Error("Failed to save user data");
 
-      console.log("✅ Дані збережено через backend.");
+      console.log("Дані збережено через backend.");
     } catch (error) {
-      console.error("❌ Помилка при збереженні через backend:", error);
+      console.error("Помилка при збереженні через backend:", error);
     }
   };
 

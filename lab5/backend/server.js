@@ -9,14 +9,13 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 app.use(cors({
-  origin: 'http://localhost:3000', // дозволити запити з фронтенда
-  methods: ['GET', 'POST', 'PUT'], // додати PUT до дозволених методів
+  origin: 'http://localhost:3000', 
+  methods: ['GET', 'POST', 'PUT'], 
   allowedHeaders: ['Content-Type'],
 }));
 
 app.use(bodyParser.json());
-
-// Підключення маршрутів
+app
 app.use('/api/userCities', buildingRoutes);
 app.use('/api/ubm', ubmRoutes);
 

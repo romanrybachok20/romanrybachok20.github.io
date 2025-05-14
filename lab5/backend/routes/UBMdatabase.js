@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/firebaseAdmin'); 
 
-// GET /api/ubm/:type
 router.get('/:type', async (req, res) => {
   const { type } = req.params;
-  console.log('Request for /api/ubm/' + type); // Debug лог
+  console.log('Request for /api/ubm/' + type); 
 
   try {
     const doc = await db.collection('UBMdatabase').doc(type).get();
